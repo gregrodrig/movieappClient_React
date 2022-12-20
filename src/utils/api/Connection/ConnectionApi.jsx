@@ -6,7 +6,7 @@ const axiosInstance = axios.create({
   headers: { "X-Custom-Header": "foobar" },
 });
 
-const axiosConnection = async (PATH, state) => {
+const axiosGet = async (PATH, state) => {
   try {
     const request = await axiosInstance.get(PATH);
     state(request.data);
@@ -15,4 +15,13 @@ const axiosConnection = async (PATH, state) => {
   }
 };
 
-export default axiosConnection;
+export const axiosPost = async (PATH, modelo) => {
+  try {
+    await axiosInstance.post(PATH, modelo);
+    console.log("Datos Registrados");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export default axiosGet;

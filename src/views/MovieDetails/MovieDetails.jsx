@@ -1,23 +1,28 @@
 import styles from "./MovieDetails.module.css";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axiosConnection from "../../components/ConnectionApi/ConnectionApi";
+import axiosGet from "../../utils/api/Connection/ConnectionApi";
+import imgCover from "../../assets/img/NoCoverImg.jpg";
 
 function MovieDetails() {
-  const { movieId } = useParams();
+  const { idPelicula } = useParams();
   const [movie, setMovie] = useState(null);
 
   useEffect(() => {
-    axiosConnection(`peliculas/${movieId}`, setMovie);
-  }, [movieId]);
+    axiosGet(`peliculas/${idPelicula}`, setMovie);
+  }, [idPelicula]);
 
   return (
     <>
-      {movie != null ? (
+      {!movie ? (
+        <div>
+          <p>No hay datos de la película</p>
+        </div>
+      ) : (
         <div className={styles.detailsContainer}>
           <img
             className={`${styles.col} ${styles.movieImage}`}
-            src={movie.imagen}
+            src={!movie.imagen ? imgCover : movie.imagen}
             alt={movie.titulo}
           />
           <div className={`${styles.col} ${styles.movieDetails}`}>
@@ -32,10 +37,6 @@ function MovieDetails() {
               <strong>Sinopsis:</strong> {movie.sinopsis}
             </p>
           </div>
-        </div>
-      ) : (
-        <div>
-          <p>No hay datos de la película</p>
         </div>
       )}
     </>

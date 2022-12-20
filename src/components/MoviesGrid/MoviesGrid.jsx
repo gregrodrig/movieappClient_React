@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 import { MovieCard } from "../MovieCard/MovieCard";
 import styles from "./MoviesGrid.module.css";
-import axiosConnection from "../ConnectionApi/ConnectionApi";
+import axiosGet from "../../utils/api/Connection/ConnectionApi";
 
 function MoviesGrid() {
   const [movies, setMovie] = useState(null);
 
   useEffect(() => {
-    axiosConnection("peliculas", setMovie);
+    axiosGet("peliculas", setMovie);
   }, []);
 
   return (
     <>
-      {movies != null ? (
+      {!movies ? (
+        <p>no hay películas</p>
+      ) : (
         <ul className={styles.moviesGrid}>
           {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+            <MovieCard key={movie.idPelicula} movie={movie} />
           ))}
         </ul>
-      ) : (
-        <p>no hay peliculas</p>
       )}
     </>
   );
