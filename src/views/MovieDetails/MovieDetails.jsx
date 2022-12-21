@@ -3,20 +3,25 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axiosGet from "../../utils/api/Connection/ConnectionApi";
 import imgCover from "../../assets/img/NoCoverImg.jpg";
+import Spinner from "../../components/Spinner/Spinner";
 
 function MovieDetails() {
   const { idPelicula } = useParams();
   const [movie, setMovie] = useState(null);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     axiosGet(`peliculas/${idPelicula}`, setMovie);
+    setLoading(false);
   }, [idPelicula]);
 
   return (
     <>
+      {isLoading && <Spinner />}
       {!movie ? (
         <div>
-          <p>No hay datos de la película</p>
+          <p className={styles.center}>No hay datos de la película!</p>
         </div>
       ) : (
         <div className={styles.detailsContainer}>

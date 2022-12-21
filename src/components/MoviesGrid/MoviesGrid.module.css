@@ -11,3 +11,7 @@
     grid-template-columns: 100%;
   }
 }
+.center {
+  text-align: center;
+  margin-top: 20px;
+}

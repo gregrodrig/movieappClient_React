@@ -21,3 +21,8 @@
 .firstItem {
   margin-top: 0;
 }
+
+.center {
+  text-align: center;
+  margin-top: 20px;
+}
