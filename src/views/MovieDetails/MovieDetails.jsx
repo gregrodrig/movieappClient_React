@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axiosGet from "../../utils/api/Connection/ConnectionApi";
 import imgCover from "../../assets/img/NoCoverImg.jpg";
 import Spinner from "../../components/Spinner/Spinner";
+import { Empty } from "../../components/EmptyMovie/Empty";
 
 function MovieDetails() {
   const { idPelicula } = useParams();
@@ -21,11 +22,12 @@ function MovieDetails() {
       {isLoading && <Spinner />}
       {!movie ? (
         <div>
-          <p className={styles.center}>No hay datos de la película!</p>
+          <Empty />
         </div>
       ) : (
         <div className={styles.detailsContainer}>
           <img
+            height={500}
             className={`${styles.col} ${styles.movieImage}`}
             src={!movie.imagen ? imgCover : movie.imagen}
             alt={movie.titulo}
@@ -39,7 +41,20 @@ function MovieDetails() {
               {movie.generos.map((genero) => genero.genero).join(", ")}
             </p>
             <p>
+              <strong>Director:</strong>{" "}
+              {movie.directors.map((director) => director.nombre).join(", ")}
+            </p>
+            <p>
               <strong>Sinopsis:</strong> {movie.sinopsis}
+            </p>
+            <p>
+              <strong>Duración:</strong> {movie.duracion}
+            </p>
+            <p>
+              <strong>Año:</strong> {movie.anno}
+            </p>
+            <p>
+              <strong>País:</strong> {movie.paisByTblPaisIdPais.pais}
             </p>
           </div>
         </div>

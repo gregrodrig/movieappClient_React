@@ -4,3 +4,36 @@
   text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073,
     0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
 }
+.header {
+  display: grid;
+  column-gap: 50px;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+  justify-content: space-between;
+  margin: 0 20px;
+}
+.item {
+  margin: auto;
+}
+.userReg {
+  color: white;
+}
+.userReg a:hover {
+  color: #e60073;
+}
+
+@media (max-width: 650px) {
+  .moviesGrid {
+    grid-template-columns: 100%;
+  }
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: stretch;
+  }
+
+  .userReg {
+    margin-top: 30px;
+  }
+}
