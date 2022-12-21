@@ -3,33 +3,44 @@ import { MovieCard } from "../MovieCard/MovieCard";
 import styles from "./MoviesGrid.module.css";
 import axiosGet from "../../utils/api/Connection/ConnectionApi";
 import Spinner from "../../components/Spinner/Spinner";
-import { UseQuery } from "../../utils/hooks/UseQuery";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { Empty } from "../EmptyMovie/Empty";
 
-function MoviesGrid() {
-  const [movies, setMovie] = useState(null);
+function MoviesGrid({ search }) {
+  const [movies, setMovie] = useState([]);
   const [isLoading, setLoading] = useState(true);
-
-  const query = UseQuery();
-  const search = query.get("titulo");
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     setLoading(true);
-    const searchUrl = search ? `/peliculas/titulo/${search}` : "peliculas";
+    const searchUrl = search ? `/peliculas/titulo/${search}` : `peliculas`;
     axiosGet(searchUrl, setMovie);
+    setHasMore(false);
     setLoading(false);
-  }, [search]);
+  }, [search, page]);
 
+  if (!isLoading && movies.length === 0) {
+    return <Empty />;
+  }
   return (
     <>
       {isLoading && <Spinner />}
       {!movies ? (
-        <p className={styles.center}>No hay películas para mostrar!</p>
+        <Empty />
       ) : (
-        <ul className={styles.moviesGrid}>
-          {movies.map((movie) => (
-            <MovieCard key={movie.idPelicula} movie={movie} />
-          ))}
-        </ul>
+        <InfiniteScroll
+          dataLength={movies.length}
+          hasMore={hasMore}
+          loader={<Spinner />}
+          next={() => setPage((prevPage) => prevPage + 1)}
+        >
+          <ul className={styles.moviesGrid}>
+            {movies.map((movie) => (
+              <MovieCard key={movie.idPelicula} movie={movie} />
+            ))}
+          </ul>
+        </InfiniteScroll>
       )}
     </>
   );
