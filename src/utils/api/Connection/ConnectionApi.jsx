@@ -1,7 +1,8 @@
 import axios from "axios";
+//const BASEURL = process.env.REACT_APP_BASEURL;
 
 const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BASEURL,
+  baseURL: "http://localhost:8000/", //BASEURL,
   timeout: 2000,
   headers: { "X-Custom-Header": "foobar" },
 });

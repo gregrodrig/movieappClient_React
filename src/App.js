@@ -1,4 +1,4 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, Navigate } from "react-router-dom";
 import LandingPage from "./views/LandingPage/LandingPage";
 import MovieDetails from "./views/MovieDetails/MovieDetails";
 import { Search } from "../src/components/Search/Search";
@@ -23,6 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/movies/:idPelicula" element={<MovieDetails />} />
+          <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </main>
     </div>
