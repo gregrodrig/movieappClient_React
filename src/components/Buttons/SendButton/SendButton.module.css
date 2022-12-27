@@ -1,0 +1,22 @@
+.btnSend {
+  text-rendering: auto;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  text-align: center;
+  align-items: stretch;
+  cursor: pointer;
+  background-color: #e60073;
+  box-sizing: border-box;
+  margin: 20px 0em;
+  padding: 10px;
+  border-width: 0px;
+}
+.btnSend:hover {
+  background-color: black;
+}

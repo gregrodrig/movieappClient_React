@@ -10,7 +10,7 @@
   grid-template-columns: auto auto auto;
   padding: 10px;
   justify-content: space-between;
-  margin: 0 20px;
+  margin: 0px 20px 40px;
 }
 .item {
   margin: auto;
