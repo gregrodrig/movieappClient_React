@@ -9,14 +9,14 @@
 }
 .exito {
   text-align: center;
-  font-size: 16px;
+  font-size: 20px;
   padding-top: 6px;
   padding-bottom: 20px;
   color: #02a802;
 }
 .failed {
   text-align: center;
-  font-size: 16px;
+  font-size: 20px;
   padding-top: 6px;
   padding-bottom: 20px;
   color: #e60073;

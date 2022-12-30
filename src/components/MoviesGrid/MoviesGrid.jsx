@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MovieCard } from "../MovieCard/MovieCard";
 import styles from "./MoviesGrid.module.css";
-import axiosGet from "../../utils/api/Connection/ConnectionApi";
+import { axiosGet } from "../../utils/api/Connection/ConnectionApi";
 import Spinner from "../../components/Spinner/Spinner";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Empty } from "../EmptyMovie/Empty";

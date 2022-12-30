@@ -1,13 +1,13 @@
 import axios from "axios";
 //const BASEURL = process.env.REACT_APP_BASEURL;
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: "http://localhost:8000/", //BASEURL,
   timeout: 2000,
   headers: { "X-Custom-Header": "foobar" },
 });
 
-const axiosGet = async (PATH, state) => {
+export const axiosGet = async (PATH, state) => {
   try {
     const request = await axiosInstance.get(PATH);
     state(request.data);
@@ -24,5 +24,3 @@ export const axiosPost = async (PATH, modelo) => {
     console.log(error);
   }
 };
-
-export default axiosGet;
