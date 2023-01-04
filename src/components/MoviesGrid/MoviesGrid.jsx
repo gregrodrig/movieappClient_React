@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MovieCard } from "../MovieCard/MovieCard";
 import styles from "./MoviesGrid.module.css";
-import axiosGet from "../../utils/api/Connection/ConnectionApi";
+import { axiosGet } from "../../utils/api/Connection/ConnectionApi";
 import Spinner from "../../components/Spinner/Spinner";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Empty } from "../EmptyMovie/Empty";
@@ -21,13 +21,13 @@ function MoviesGrid({ search }) {
   }, [search, page]);
 
   if (!isLoading && movies.length === 0) {
-    return <Empty />;
+    return <Empty msg="pelicula" />;
   }
   return (
     <>
       {isLoading && <Spinner />}
       {!movies ? (
-        <Empty />
+        <Empty msg="pelicula" />
       ) : (
         <InfiniteScroll
           dataLength={movies.length}

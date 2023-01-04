@@ -1,7 +1,7 @@
 import styles from "./MovieDetails.module.css";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axiosGet from "../../utils/api/Connection/ConnectionApi";
+import { axiosGet } from "../../utils/api/Connection/ConnectionApi";
 import imgCover from "../../assets/img/NoCoverImg.jpg";
 import Spinner from "../../components/Spinner/Spinner";
 import { Empty } from "../../components/EmptyMovie/Empty";
@@ -10,6 +10,7 @@ function MovieDetails() {
   const { idPelicula } = useParams();
   const [movie, setMovie] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const urlAPI = "http://localhost:8000/images/";
 
   useEffect(() => {
     setLoading(true);
@@ -22,14 +23,14 @@ function MovieDetails() {
       {isLoading && <Spinner />}
       {!movie ? (
         <div>
-          <Empty />
+          <Empty msg="pelicula" />
         </div>
       ) : (
         <div className={styles.detailsContainer}>
           <img
             height={500}
             className={`${styles.col} ${styles.movieImage}`}
-            src={!movie.imagen ? imgCover : movie.imagen}
+            src={!movie.imagen ? imgCover : urlAPI + movie.imagen}
             alt={movie.titulo}
           />
           <div className={`${styles.col} ${styles.movieDetails}`}>

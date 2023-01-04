@@ -3,6 +3,7 @@ import LandingPage from "./views/LandingPage/LandingPage";
 import MovieDetails from "./views/MovieDetails/MovieDetails";
 import { Search } from "../src/components/Search/Search";
 import styles from "./App.module.css";
+import { MovieAdd } from "./views/MovieAdd/MovieAdd";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         </div>
         <div className={`${styles.userReg} ${styles.item}`}>
           <Link to="/login">Iniciar Sesion</Link> /{" "}
-          <Link to="/register">Register</Link>
+          <Link to="/register">Registrar</Link>
         </div>
       </header>
       <main>
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/movies/:idPelicula" element={<MovieDetails />} />
           <Route path="*" element={<Navigate replace to="/" />} />
+          <Route path="/addmovie" element={<MovieAdd />} />
         </Routes>
       </main>
     </div>
