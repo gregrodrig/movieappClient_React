@@ -1,5 +1,16 @@
 import styles from "./Empty.module.css";
 
-export function Empty() {
-  return <p className={styles.center}>No hay películas para mostrar!</p>;
+export function Empty({ msg }) {
+  switch (msg) {
+    case "pelicula":
+      return <p className={styles.center}>No hay películas para mostrar!</p>;
+    case "paises":
+      return (
+        <p className={styles.center}>
+          No se han cargado los países desde la Base de datos!
+        </p>
+      );
+    default:
+      return null;
+  }
 }

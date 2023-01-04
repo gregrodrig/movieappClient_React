@@ -23,7 +23,7 @@ function MovieDetails() {
       {isLoading && <Spinner />}
       {!movie ? (
         <div>
-          <Empty />
+          <Empty msg="pelicula" />
         </div>
       ) : (
         <div className={styles.detailsContainer}>

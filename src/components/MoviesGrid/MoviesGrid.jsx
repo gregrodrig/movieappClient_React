@@ -21,13 +21,13 @@ function MoviesGrid({ search }) {
   }, [search, page]);
 
   if (!isLoading && movies.length === 0) {
-    return <Empty />;
+    return <Empty msg="pelicula" />;
   }
   return (
     <>
       {isLoading && <Spinner />}
       {!movies ? (
-        <Empty />
+        <Empty msg="pelicula" />
       ) : (
         <InfiniteScroll
           dataLength={movies.length}
