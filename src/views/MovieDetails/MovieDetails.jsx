@@ -5,6 +5,7 @@ import { axiosGet } from "../../utils/api/Connection/ConnectionApi";
 import imgCover from "../../assets/img/NoCoverImg.jpg";
 import Spinner from "../../components/Spinner/Spinner";
 import { Empty } from "../../components/EmptyMovie/Empty";
+import { ThreeDots } from "../../components/Dropdown/ThreeDots/ThreeDots";
 
 function MovieDetails() {
   const { idPelicula } = useParams();
@@ -34,9 +35,12 @@ function MovieDetails() {
             alt={movie.titulo}
           />
           <div className={`${styles.col} ${styles.movieDetails}`}>
-            <p className={styles.firstItem}>
-              <strong>Título:</strong> {movie.titulo}
-            </p>
+            <div className={styles.menuTitle}>
+              <p className={styles.firstItem}>
+                <strong>Título:</strong> {movie.titulo}
+              </p>
+              <ThreeDots item={["Eliminar", "Actualizar"]} />
+            </div>
             <p>
               <strong>Generos:</strong>{" "}
               {movie.generos.map((genero) => genero.genero).join(", ")}

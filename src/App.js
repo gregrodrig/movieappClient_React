@@ -4,6 +4,7 @@ import MovieDetails from "./views/MovieDetails/MovieDetails";
 import { Search } from "../src/components/Search/Search";
 import styles from "./App.module.css";
 import { MovieAdd } from "./views/MovieAdd/MovieAdd";
+import { MovieUpdate } from "./views/MovieUpdate/MovieUpdate";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/movies/:idPelicula" element={<MovieDetails />} />
           <Route path="*" element={<Navigate replace to="/" />} />
           <Route path="/addmovie" element={<MovieAdd />} />
+          <Route path="/updatemovie" element={<MovieUpdate />} />
         </Routes>
       </main>
     </div>

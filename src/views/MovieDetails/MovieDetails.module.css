@@ -19,5 +19,14 @@
 }
 
 .firstItem {
-  margin-top: 0;
+  margin: 0;
+}
+.menuTitle {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap-reverse;
+}
+
+.menuTitle > div {
+  flex: 1;
 }
