@@ -1,7 +1,10 @@
 import styles from "./MovieDetails.module.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { axiosGet } from "../../utils/api/Connection/ConnectionApi";
+import {
+  axiosGet,
+  axiosDelete,
+} from "../../utils/api/Connection/ConnectionApi";
 import imgCover from "../../assets/img/NoCoverImg.jpg";
 import Spinner from "../../components/Spinner/Spinner";
 import { Empty } from "../../components/EmptyMovie/Empty";
@@ -19,6 +22,18 @@ function MovieDetails() {
     setLoading(false);
   }, [idPelicula]);
 
+  const handleDelete = () => {
+    if (
+      window.confirm(
+        `Seguro deseas eliminar la película "${movie.titulo}", No.: ${idPelicula}`
+      )
+    ) {
+      axiosDelete(`peliculas/${idPelicula}`, setMovie);
+      alert(
+        `La película "${movie.titulo}", No.: ${idPelicula} ya fue eliminada con éxito!`
+      );
+    }
+  };
   return (
     <>
       {isLoading && <Spinner />}
@@ -39,7 +54,12 @@ function MovieDetails() {
               <p className={styles.firstItem}>
                 <strong>Título:</strong> {movie.titulo}
               </p>
-              <ThreeDots item={["Eliminar", "Actualizar"]} />
+              <ThreeDots
+                item={[
+                  <Link onClick={() => handleDelete()}>Eliminar</Link>,
+                  <Link to={`/updatemovie/${idPelicula}`}>Actualizar</Link>,
+                ]}
+              />
             </div>
             <p>
               <strong>Generos:</strong>{" "}

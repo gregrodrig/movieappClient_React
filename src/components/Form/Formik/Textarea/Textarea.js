@@ -1,19 +1,17 @@
-import { Field, ErrorMessage } from "formik";
-import { TextError } from "../TextError/TextError";
 import styles from "../Input/Input.module.css";
+import { TextError } from "../TextError/TextError";
 
-export function Textarea({ label, name, ...rest }) {
+export function Textarea({ label, name, error, ...rest }) {
   return (
     <div className="form-control">
       <label htmlFor={name}>{label}</label>
-      <Field
-        as="textarea"
+      <textarea
         id={name}
         name={name}
-        {...rest}
         className={styles.field}
-      />
-      <ErrorMessage name={name} component={TextError} />
+        {...rest}
+      ></textarea>
+      <TextError error={error} />
     </div>
   );
 }
