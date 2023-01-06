@@ -1,12 +1,11 @@
-import { ErrorMessage, Field } from "formik";
-import { TextError } from "../TextError/TextError";
 import styles from "../Input/Input.module.css";
+import { TextError } from "../TextError/TextError";
 
-export function Select({ label, name, options, onValue, ...rest }) {
+export function Select({ label, name, options, error, onValue, ...rest }) {
   return (
     <div className="form-control">
       <label htmlFor={name}>{label}</label>
-      <Field
+      <select
         as="select"
         id={name}
         name={name}
@@ -24,8 +23,8 @@ export function Select({ label, name, options, onValue, ...rest }) {
             </option>
           );
         })}
-        <ErrorMessage name={name} component={TextError} />
-      </Field>
+        <TextError error={error} />
+      </select>
     </div>
   );
 }
