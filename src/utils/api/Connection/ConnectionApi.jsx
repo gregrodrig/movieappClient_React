@@ -15,10 +15,9 @@ export const axiosGet = async (PATH, state) => {
     console.log(error);
   }
 };
-export const axiosDelete = async (PATH, state) => {
+export const axiosDelete = async (PATH) => {
   try {
-    const request = await axiosInstance.delete(PATH);
-    state(request.data);
+    await axiosInstance.delete(PATH);
   } catch (error) {
     console.log(error);
   }

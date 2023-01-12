@@ -5,9 +5,12 @@ export default function Actor() {
     <div>
       <InfoTable
         path={"actores"}
-        nameModel={"nombre"}
         idModel={"idActor"}
-        tableNameModel={"Actores"}
+        confirmColumn="nombre"
+        columnsTableHeader={["Actor", "Apellidos"]}
+        columnDataName={["nombre", "apellidos"]}
+        inputLabel={"nombre"}
+        formTitle="Actor"
       />
     </div>
   );
