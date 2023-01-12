@@ -1,0 +1,34 @@
+.container {
+  /* display: grid;
+  grid-template-columns: repeat(auto-fill, 48%);
+  justify-content: center;
+  gap: 20px;
+  padding: 6px; */
+
+  display: flex;
+  /* align-items: stretch; */
+  justify-content: space-around;
+  gap: 20px;
+  margin: 0 20px;
+  flex-wrap: wrap;
+}
+.formCol {
+  flex-grow: 0;
+}
+.DataTableCol {
+  flex-grow: 1;
+}
+.linkContainer {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  min-width: max-content;
+}
+.linkEliminar {
+  color: white;
+  background-color: #e60073;
+}
+.linkEliminar:hover {
+  color: white;
+  background-color: black;
+}

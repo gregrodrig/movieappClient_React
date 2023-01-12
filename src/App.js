@@ -4,6 +4,11 @@ import MovieDetails from "./views/MovieDetails/MovieDetails";
 import { Search } from "../src/components/Search/Search";
 import styles from "./App.module.css";
 import { MovieAdd } from "./views/MovieAdd/MovieAdd";
+import GenderAdd from "./views/Gender/GenderAdd/GenderAdd";
+import Gender from "./views/Gender/Gender";
+import Country from "./views/Country/Country";
+import Actor from "./views/Actor/Actor";
+import Director from "./views/Director/Director";
 
 function App() {
   return (
@@ -27,6 +32,11 @@ function App() {
           <Route path="*" element={<Navigate replace to="/" />} />
           <Route path="/addmovie" element={<MovieAdd />} />
           <Route path="/updatemovie/:idPelicula" element={<MovieAdd />} />
+          <Route path="/addgender" element={<GenderAdd />} />
+          <Route path="/gender" element={<Gender />} />
+          <Route path="/country" element={<Country />} />
+          <Route path="/actor" element={<Actor />} />
+          <Route path="/director" element={<Director />} />
         </Routes>
       </main>
     </div>
