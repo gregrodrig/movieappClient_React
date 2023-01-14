@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  margin: 0 20px;
+  flex-wrap: wrap;
+}
+.formCol {
+  flex-grow: 0;
+}
+.DataTableCol {
+  flex-grow: 1;
+}

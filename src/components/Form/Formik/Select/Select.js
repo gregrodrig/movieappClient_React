@@ -3,7 +3,7 @@ import { TextError } from "../TextError/TextError";
 
 export function Select({ label, name, options, error, onValue, ...rest }) {
   return (
-    <div className="form-control">
+    <div className={`form-control ${styles.form}`}>
       <label htmlFor={name}>{label}</label>
       <select
         as="select"

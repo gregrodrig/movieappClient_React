@@ -7,6 +7,9 @@
   margin: 20px 0px;
   padding: 10px 10px;
 }
+.form {
+  margin-bottom: 20px;
+}
 label {
   font-weight: bold;
 }

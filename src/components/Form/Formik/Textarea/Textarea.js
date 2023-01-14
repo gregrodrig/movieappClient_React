@@ -3,7 +3,7 @@ import { TextError } from "../TextError/TextError";
 
 export function Textarea({ label, name, error, ...rest }) {
   return (
-    <div className="form-control">
+    <div className={`form-control ${styles.form}`}>
       <label htmlFor={name}>{label}</label>
       <textarea
         id={name}
