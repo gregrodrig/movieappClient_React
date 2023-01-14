@@ -124,7 +124,7 @@ export function MovieAdd() {
         <Empty msg="paises" />
       ) : (
         <form onSubmit={formik.handleSubmit} className={styles.form}>
-          <h1>Agregar película</h1>
+          {!idPelicula ? <h1>Agregar Película</h1> : <h1>Editar Película</h1>}
           <br />
           <div>
             <Control

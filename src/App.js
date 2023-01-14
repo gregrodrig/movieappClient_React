@@ -9,6 +9,9 @@ import Gender from "./views/Gender/Gender";
 import Country from "./views/Country/Country";
 import Actor from "./views/Actor/Actor";
 import Director from "./views/Director/Director";
+import GeneralAdd from "./views/GeneralAdd/GeneralAdd";
+import Modal from "./components/Bootstrap/Modal/Modal";
+import { GeneralModel } from "./components/InfoTable/InfoTable";
 
 function App() {
   return (
@@ -32,6 +35,8 @@ function App() {
           <Route path="*" element={<Navigate replace to="/" />} />
           <Route path="/addmovie" element={<MovieAdd />} />
           <Route path="/updatemovie/:idPelicula" element={<MovieAdd />} />
+          <Route path="/updatemodel/:idModel" element={<GeneralModel />} />
+          <Route path="/general" element={<GeneralAdd />} />
           <Route path="/addgender" element={<GenderAdd />} />
           <Route path="/gender" element={<Gender />} />
           <Route path="/country" element={<Country />} />

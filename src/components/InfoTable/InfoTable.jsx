@@ -1,35 +1,39 @@
 import React from "react";
+import { useFormik } from "formik";
 import styles from "../../components/InfoTable/InfoTable.module.css";
+import stylesT from "../../views/MovieAdd/MovieAdd.module.css";
 import { useState, useEffect } from "react";
 import {
   axiosGet,
+  axiosDelete,
+  axiosInstance,
   axiosPost,
   axiosPut,
-  axiosDelete,
 } from "../../utils/api/Connection/ConnectionApi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import { Empty } from "../EmptyMovie/Empty";
 import Spinner from "../Spinner/Spinner";
-import { useFormik } from "formik";
-import styleForm from "../../views/MovieAdd/MovieAdd.module.css";
+import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import Sidebar from "../Bootstrap/Sidebar/Sidebar";
+import CenteredNav from "../Bootstrap/CenteredNav/CenteredNav";
+import GeneralAdd from "../../views/GeneralAdd/GeneralAdd";
+import Modal from "../Bootstrap/Modal/Modal";
+import SidebarBody from "../Bootstrap/SidebarBody/SidebarBody";
 import { Control } from "../Form/Formik/Control/Control";
 import { SendButton } from "../Buttons/SendButton/SendButton";
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 
 export default function InfoTable({
   path,
   idModel,
   columnDataName,
-  inputLabel,
   formTitle,
+  inputLabel,
   columnsTableHeader,
   confirmColumn,
 }) {
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const [formSend, setFormSend] = useState(false);
-  const [errorAdding, setAdding] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -49,15 +53,11 @@ export default function InfoTable({
     }
   };
   const customStyles = {
-    table: {
-      style: {
-        backgroundColor: "#000000",
-      },
-    },
     header: {
       style: {
-        fontSize: "46px",
-        minHeight: "46px",
+        fontSize: "22px",
+        minHeight: "22px",
+        paddingTop: "10px",
         borderTopLeftRadius: "15px",
         borderTopRightRadius: "15px",
         backgroundColor: "#f5f5f5",
@@ -107,8 +107,8 @@ export default function InfoTable({
         </div>
         <div>
           <Link
-            to={`/updatemodel/${row[idModel]}`}
             className={`btn btn-dark ${styles.link}`}
+            to={`/updatemodel/${row[idModel]}`}
           >
             <AiOutlineEdit />
           </Link>
@@ -116,6 +116,55 @@ export default function InfoTable({
       </div>
     ),
   });
+  return (
+    <>
+      {isLoading && <Spinner />}
+      {!data ? (
+        <Empty msg={path} />
+      ) : (
+        <Sidebar
+          content={
+            <SidebarBody
+              contentTop={
+                <CenteredNav
+                  titleText={formTitle}
+                  btnText={`Agregar ${formTitle}`}
+                  modalBody={GeneralModel({
+                    path,
+                    columnDataName,
+                    formTitle,
+                    inputLabel,
+                  })}
+                />
+              }
+              contenButtom={
+                <DataTable
+                  customStyles={customStyles}
+                  title={formTitle}
+                  columns={columnas}
+                  data={data}
+                  keyField={idModel}
+                  pagination
+                />
+              }
+            />
+          }
+        />
+      )}
+    </>
+  );
+}
+
+export const GeneralModel = ({
+  path,
+  columnDataName,
+  formTitle,
+  inputLabel,
+}) => {
+  const { idModel } = useParams();
+  const [formSend, setFormSend] = useState(false);
+  const [errorAdding, setAdding] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       idModel: 0,
@@ -141,62 +190,41 @@ export default function InfoTable({
       let errores = {};
       //validación nameModel
       if (!valores.nameModel) {
-        errores.nameModel = `Por favor ingresa un ${columnDataName}`;
+        errores.nameModel = `Por favor ingresa un ${columnDataName[0]}`;
       } else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(valores.nameModel)) {
-        errores.nameModel = `${columnDataName} solo puede contener letras y espacios.`;
+        errores.nameModel = `${columnDataName[0]} solo puede contener letras y espacios.`;
       }
+      return errores;
     },
   });
-
   return (
-    <>
-      {isLoading && <Spinner />}
-      {!data ? (
-        <Empty msg={path} />
-      ) : (
-        <div className={styles.container}>
-          <div className={styles.formCol}>
-            <form onSubmit={formik.handleSubmit} className={styleForm.form}>
-              <h4>Agregar</h4>
-              <br />
-              <div>
-                <Control
-                  control="input"
-                  type="text"
-                  label={formTitle}
-                  name={columnDataName}
-                  value={formik.values.nameModel}
-                  onChange={formik.handleChange}
-                  error={formik.errors?.nameModel}
-                  placeholder={`Favor ingresar ${inputLabel}`}
-                />
-              </div>
-              <SendButton type="submit" content="Guardar" />
-              {formSend ? (
-                <p className={styles.exito}>
-                  {formTitle} se agregó correctamente!
-                </p>
-              ) : (
-                errorAdding && (
-                  <p className={styles.failed}>
-                    Por favor, confirma la información e intenta de nuevo!
-                  </p>
-                )
-              )}
-            </form>
-          </div>
-          <div className={styles.DataTableCol}>
-            <DataTable
-              customStyles={customStyles}
-              title={formTitle}
-              columns={columnas}
-              data={data}
-              keyField={idModel}
-              pagination
-            />
-          </div>
+    <div className={stylesT.formCol}>
+      <form onSubmit={formik.handleSubmit} className={stylesT.form}>
+        {!idModel ? <h4>Agregar</h4> : <h4>Editar</h4>}
+        <br />
+        <div>
+          <Control
+            control="input"
+            type="text"
+            label={formTitle}
+            name={columnDataName}
+            value={formik.values.nameModel}
+            onChange={formik.handleChange}
+            error={formik.errors?.nameModel}
+            placeholder={`Favor ingresar ${inputLabel}`}
+          />
         </div>
-      )}
-    </>
+        <SendButton type="submit" content="Guardar" />
+        {formSend ? (
+          <p className={stylesT.exito}>{formTitle} se agregó correctamente!</p>
+        ) : (
+          errorAdding && (
+            <p className={stylesT.failed}>
+              Por favor, confirma la información e intenta de nuevo!
+            </p>
+          )
+        )}
+      </form>
+    </div>
   );
-}
+};
