@@ -12,6 +12,7 @@ import Director from "./views/Director/Director";
 import GeneralAdd from "./views/GeneralAdd/GeneralAdd";
 import Modal from "./components/Bootstrap/Modal/Modal";
 import { GeneralModel } from "./components/InfoTable/InfoTable";
+import AgregarEditarDirector from "./views/Director/AgregarEditarDirector";
 
 function App() {
   return (
@@ -42,6 +43,11 @@ function App() {
           <Route path="/country" element={<Country />} />
           <Route path="/actor" element={<Actor />} />
           <Route path="/director" element={<Director />} />
+          <Route path="/director/add" element={<AgregarEditarDirector />} />
+          <Route
+            path="/director/edit/:idDirector"
+            element={<AgregarEditarDirector />}
+          />
         </Routes>
       </main>
     </div>

@@ -1,43 +1,16 @@
-import React from "react";
-import styles from "./Gender.module.css";
-import { useState, useEffect } from "react";
-import { axiosGet } from "../../utils/api/Connection/ConnectionApi";
-import { Link } from "react-router-dom";
-import DataTable from "react-data-table-component";
+import InfoTable from "../../components/InfoTable/InfoTable";
 
-export default function Gender() {
-  const [genero, setGenero] = useState([]);
-
-  useEffect(() => {
-    axiosGet(`generos/`, setGenero);
-  }, []);
-
-  const columnas = [
-    { name: "#", selector: "idGenero" },
-    { name: "Genero", selector: "genero" },
-    {
-      name: "Opciones",
-      button: true,
-      cell: (row) => (
-        <div>
-          <Link className={styles.link} to={"" + row.idGenero}>
-            Eliminar
-          </Link>
-          {" | "}
-          <Link className={styles.link} to="">
-            Actualizar
-          </Link>
-        </div>
-      ),
-    },
-  ];
+export default function Actor() {
   return (
-    <div className={`${styles.container}`}>
-      <DataTable
-        className={`${styles.dataContainer}`}
-        columns={columnas}
-        data={genero}
-        pagination
+    <div>
+      <InfoTable
+        path={"generos"}
+        idModel={"idGenero"}
+        confirmColumn="genero"
+        columnsTableHeader={["Genero"]}
+        columnDataName={["genero"]}
+        inputLabel={"genero"}
+        formTitle="Genero"
       />
     </div>
   );

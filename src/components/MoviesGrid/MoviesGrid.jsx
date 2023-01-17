@@ -5,6 +5,7 @@ import { axiosGet } from "../../utils/api/Connection/ConnectionApi";
 import Spinner from "../../components/Spinner/Spinner";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Empty } from "../EmptyMovie/Empty";
+import NavCustomData from "../Bootstrap/NavCustomData/NavCustomData";
 
 function MoviesGrid({ search }) {
   const [movies, setMovie] = useState([]);
@@ -35,6 +36,7 @@ function MoviesGrid({ search }) {
           loader={<Spinner />}
           next={() => setPage((prevPage) => prevPage + 1)}
         >
+          <NavCustomData nameButtom="test" />
           <ul className={styles.moviesGrid}>
             {movies.map((movie) => (
               <MovieCard key={movie.idPelicula} movie={movie} />

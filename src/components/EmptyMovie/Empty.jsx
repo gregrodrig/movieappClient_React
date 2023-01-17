@@ -5,7 +5,9 @@ export function Empty({ msg }) {
     case "pelicula":
       return <p className={styles.center}>No hay películas para mostrar!</p>;
     case "actores":
-      return <p className={styles.center}>No hay actores para mostrar!</p>;
+      return <p className={styles.center}>No hay {msg} para mostrar!</p>;
+    case "director":
+      return <p className={styles.center}>No hay {msg} para mostrar!</p>;
     case "paises":
       return (
         <p className={styles.center}>
