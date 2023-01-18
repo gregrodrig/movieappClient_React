@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Modal from "../Modal/Modal";
 
-export default function CenteredNav({ titleText, btnText, modalBody }) {
+export default function CenteredNav({ titleText, btnText, btnLink }) {
   return (
     <>
       <nav
@@ -11,33 +10,29 @@ export default function CenteredNav({ titleText, btnText, modalBody }) {
       >
         <div className="container-fluid">
           <Link
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarsExample11"
-            aria-controls="navbarsExample11"
+            data-bs-target="#navbarsModelsList"
+            aria-controls="navbarsModelsList"
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </Link>
 
           <div
             className="collapse navbar-collapse d-lg-flex"
-            id="navbarsExample11"
+            id="navbarsModelsList"
           >
             <Link className="navbar-brand col-lg-3 me-0" to="#">
               {titleText}
             </Link>
             <ul className="navbar-nav col-lg-6 justify-content-lg-center"></ul>
             <div className="d-lg-flex col-lg-3 justify-content-lg-end">
-              <Modal
-                titleText={titleText}
-                body={modalBody}
-                btnText={btnText}
-                btnCloseText="Cancelar"
-                btnAcept="Agregar"
-              />
+              <Link to={btnLink} className={`btn btn-dark`}>
+                {btnText}
+              </Link>
             </div>
           </div>
         </div>

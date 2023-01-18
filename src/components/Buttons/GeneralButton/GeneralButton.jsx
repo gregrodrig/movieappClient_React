@@ -1,3 +1,4 @@
+// import { Link as buttom } from "react-router-dom";
 import styles from "./GeneralButton.module.css";
 export function GeneralButton({ type, content, ...rest }) {
   return (

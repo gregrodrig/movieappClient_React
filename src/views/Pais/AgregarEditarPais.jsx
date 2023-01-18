@@ -14,37 +14,37 @@ import {
 } from "../../utils/api/Connection/ConnectionApi";
 import styles from "../MovieAdd/MovieAdd.module.css";
 
-export default function AgregarEditarDirector() {
-  const { idDirector } = useParams();
+export default function AgregarEditarPais() {
+  const { idPais } = useParams();
   const [isLoading, setLoading] = useState(true);
   const [formSend, setFormSend] = useState(false);
   const [errorAdding, setAdding] = useState(false);
   const navigate = useNavigate();
 
-  const PATH = "directores";
+  const PATH = "pais";
 
-  const direct = async () => {
+  const country = async () => {
     setLoading(true);
-    const respond = await axiosInstance.get(`${PATH}/${idDirector}`);
+    const respond = await axiosInstance.get(`${PATH}/${idPais}`);
     formik.setValues(respond.data);
     setLoading(false);
   };
 
   useEffect(() => {
-    if (idDirector) {
-      direct();
+    if (idPais) {
+      country();
     }
     setLoading(false);
   }, []);
 
   const formik = useFormik({
     initialValues: {
-      idDirector: 0,
-      nombre: "",
+      idPais: 0,
+      pais: "",
     },
     onSubmit: async (valores, { resetForm }) => {
       try {
-        if (!idDirector) {
+        if (!idPais) {
           axiosPost(`/${PATH}`, valores);
         } else {
           axiosPut(`/${PATH}`, valores);
@@ -52,7 +52,7 @@ export default function AgregarEditarDirector() {
         resetForm(true);
         setFormSend(true);
         setTimeout(() => {
-          navigate("/director");
+          navigate("/pais");
         }, 2000);
       } catch (error) {
         console.log(error);
@@ -62,11 +62,12 @@ export default function AgregarEditarDirector() {
     validate: (valores) => {
       let errores = {};
 
-      //validación nombre
-      if (!valores.nombre) {
-        errores.nombre = "Por favor ingresa un nombre";
-      } else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(valores.nombre)) {
-        errores.nombre = "El nombre solo puede contener letras y espacios.";
+      //validación nombre de pais
+      if (!valores.pais) {
+        errores.pais = "Por favor ingresa un nombre de país";
+      } else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(valores.pais)) {
+        errores.pais =
+          "El nombre de país sólo puede contener letras y espacios.";
       }
       return errores;
     },
@@ -79,40 +80,32 @@ export default function AgregarEditarDirector() {
           <SidebarBody
             contentTop={
               <CenteredNav
-                titleText="Listado de Directores"
+                titleText="Listado de Países"
                 btnText="Ir ahora"
-                btnLink="/director"
+                btnLink="/pais"
               />
             }
             contenButtom={
               <form onSubmit={formik.handleSubmit} className={styles.form}>
-                {!idDirector ? (
-                  <h1>Agregar Director</h1>
-                ) : (
-                  <h1>Editar Director</h1>
-                )}
+                {!idPais ? <h1>Agregar País</h1> : <h1>Editar País</h1>}
                 <br />
                 <div>
                   <Control
                     control="input"
                     type="text"
                     label="Nombre"
-                    name="nombre"
-                    value={formik.values.nombre}
+                    name="pais"
+                    value={formik.values.pais}
                     onChange={formik.handleChange}
-                    error={formik.errors?.nombre}
+                    error={formik.errors?.pais}
                   />
                 </div>
                 <SendButton type="submit" content="Enviar" />
-                {formSend && !idDirector && (
-                  <p className={styles.exito}>
-                    Director agregado correctamente!
-                  </p>
+                {formSend && !idPais && (
+                  <p className={styles.exito}>País agregado correctamente!</p>
                 )}
-                {formSend && idDirector && (
-                  <p className={styles.exito}>
-                    Director editado correctamente!
-                  </p>
+                {formSend && idPais && (
+                  <p className={styles.exito}>País editado correctamente!</p>
                 )}
                 {errorAdding && (
                   <p className={styles.failed}>

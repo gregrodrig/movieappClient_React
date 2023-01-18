@@ -13,31 +13,31 @@ import {
 } from "../../utils/api/Connection/ConnectionApi";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 
-export default function Actor() {
+export default function Gender() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  const PATH = "actores";
+  const PATH = "generos";
 
-  const actors = () => {
+  const direct = () => {
     setLoading(true);
     axiosGet(`${PATH}/`, setData);
     setLoading(false);
   };
 
   useEffect(() => {
-    actors();
+    direct();
   }, []);
 
-  const handleDelete = (idActor, nameActor) => {
+  const handleDelete = (idGenero, nameGenero) => {
     if (
       window.confirm(
-        `Seguro deseas eliminar el actor "${nameActor}", No.: ${idActor}`
+        `Seguro deseas eliminar  "${nameGenero}", No.: ${idGenero}`
       )
     ) {
-      axiosDelete(`${PATH}/${idActor}`);
+      axiosDelete(`${PATH}/${idGenero}`);
       alert(
-        `Actor "${nameActor}", No.: ${idActor} ya fue eliminado con éxito!`
+        `Genero "${nameGenero}", No.: ${idGenero} ya fue eliminado con éxito!`
       );
       axiosGet(`${PATH}/`, setData);
     }
@@ -45,23 +45,11 @@ export default function Actor() {
   const columnas = [
     {
       name: "#",
-      selector: (row) => row.idActor,
+      selector: (row) => row.idGenero,
     },
     {
       name: "Nombre",
-      selector: (row) => row.nombre,
-    },
-    {
-      name: "Apellidos",
-      selector: (row) => row.apellidos,
-    },
-    {
-      name: "Nacimiento",
-      selector: (row) => row.fechaNacimiento,
-    },
-    {
-      name: "País de nacimiento",
-      selector: (row) => row.tblPaisIdPais,
+      selector: (row) => row.genero,
     },
     {
       name: "Acciones",
@@ -71,7 +59,7 @@ export default function Actor() {
         <div className={`${styles.linkContainer}`}>
           <div>
             <Link
-              onClick={() => handleDelete(row.idActor, row.nombre)}
+              onClick={() => handleDelete(row.idGenero, row.genero)}
               className={`btn btn-dark ${styles.linkEliminar}`}
             >
               <AiOutlineDelete />
@@ -80,7 +68,7 @@ export default function Actor() {
           <div>
             <Link
               className={`btn btn-dark ${styles.link}`}
-              to={`edit/${row.idActor}`}
+              to={`edit/${row.idGenero}`}
             >
               <AiOutlineEdit />
             </Link>
@@ -132,7 +120,7 @@ export default function Actor() {
             <SidebarBody
               contentTop={
                 <CenteredNav
-                  titleText="Nuevo Actor"
+                  titleText="Nuevo Genero"
                   btnText="Agregar"
                   btnLink="add"
                 />
@@ -140,10 +128,10 @@ export default function Actor() {
               contenButtom={
                 <DataTable
                   customStyles={customStyles}
-                  title="Actor"
+                  title="Genero"
                   columns={columnas}
                   data={data}
-                  keyField="idActor"
+                  keyField="idGenero"
                   pagination
                 />
               }
