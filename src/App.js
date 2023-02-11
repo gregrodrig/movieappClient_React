@@ -12,6 +12,18 @@ import AgregarEditarDirector from "./views/Director/AgregarEditarDirector";
 import AgregarEditarGenero from "./views/Genero/AgregarEditarGenero";
 import AgregarEditarPais from "./views/Pais/AgregarEditarPais";
 import AgregarEditarActor from "./views/Actor/AgregarEditarActor";
+import Login from "./views/Login/Login";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { handleGetUserData } from "./components/UserLogin";
+import UserRegister from "./views/UserRegister/UserRegister";
+
+const handleLogout = () => {
+  localStorage.clear();
+  window.location.reload();
+};
+
+const user = handleGetUserData();
+const userRol = user?.roles?.map((rol) => rol.authority);
 
 function App() {
   return (
@@ -24,8 +36,17 @@ function App() {
           <Search />
         </div>
         <div className={`${styles.userReg} ${styles.item}`}>
-          <Link to="/login">Iniciar Sesion</Link> /{" "}
-          <Link to="/register">Registrar</Link>
+          {!userRol ? (
+            <>
+              <Link to="/login">Iniciar Sesion</Link> /{" "}
+              <Link to="/register">Registrar</Link>
+            </>
+          ) : (
+            <>
+              <Link onClick={handleLogout}>Logout</Link> /{" "}
+              <Link to="/actor">Dashboard</Link>
+            </>
+          )}
         </div>
       </header>
       <main>
@@ -33,32 +54,62 @@ function App() {
           {/*HOME*/}
           <Route path="/" element={<LandingPage />} />
           <Route path="*" element={<Navigate replace to="/" />} />
-          {/*PELICULA*/}
-          <Route path="/addmovie" element={<MovieAdd />} />
-          <Route path="/updatemovie/:idPelicula" element={<MovieAdd />} />
-          <Route path="/movies/:idPelicula" element={<MovieDetails />} />
-          {/*ACTOR*/}
-          <Route path="/actor" element={<Actor />} />
-          <Route path="/actor/add" element={<AgregarEditarActor />} />
-          <Route path="/actor/edit/:idActor" element={<AgregarEditarActor />} />
-          {/*DIRECTOR*/}
-          <Route path="/director" element={<Director />} />
-          <Route path="/director/add" element={<AgregarEditarDirector />} />
+          <Route path="/login" element={<Login />} />
+          {/*USER*/}
+          <Route path="/register" element={<UserRegister />} />
           <Route
-            path="/director/edit/:idDirector"
-            element={<AgregarEditarDirector />}
-          />
-          {/*GENERO*/}
-          <Route path="/genero" element={<Genero />} />
-          <Route path="/genero/add" element={<AgregarEditarGenero />} />
+            element={
+              <ProtectedRoute
+                isAllowed={userRol?.includes("Admin")}
+                redirectTo="/"
+              />
+            }
+          >
+            {/*ACTOR*/}
+            <Route path="/actor" element={<Actor />} />
+            <Route path="/actor/add" element={<AgregarEditarActor />} />
+            <Route
+              path="/actor/edit/:idActor"
+              element={<AgregarEditarActor />}
+            />
+            {/*PELICULA*/}
+            <Route path="/addmovie" element={<MovieAdd />} />
+            <Route path="/updatemovie/:idPelicula" element={<MovieAdd />} />
+            {/*DIRECTOR*/}
+            <Route path="/director" element={<Director />} />
+            <Route path="/director/add" element={<AgregarEditarDirector />} />
+            <Route
+              path="/director/edit/:idDirector"
+              element={<AgregarEditarDirector />}
+            />
+            {/*GENERO*/}
+            <Route path="/genero" element={<Genero />} />
+            <Route path="/genero/add" element={<AgregarEditarGenero />} />
+            <Route
+              path="/genero/edit/:idGenero"
+              element={<AgregarEditarGenero />}
+            />
+            {/*PAIS*/}
+            <Route path="/pais" element={<Pais />} />
+            <Route path="/pais/add" element={<AgregarEditarPais />} />
+            <Route path="/pais/edit/:idPais" element={<AgregarEditarPais />} />
+          </Route>
+          {/* USER ROUTES*/}
           <Route
-            path="/genero/edit/:idGenero"
-            element={<AgregarEditarGenero />}
-          />
-          {/*PAIS*/}
-          <Route path="/pais" element={<Pais />} />
-          <Route path="/pais/add" element={<AgregarEditarPais />} />
-          <Route path="/pais/edit/:idPais" element={<AgregarEditarPais />} />
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  user
+                    ? userRol?.includes("Users") || userRol?.includes("Admin")
+                    : null
+                }
+                redirectTo="/"
+              />
+            }
+          >
+            {/*PELICULA*/}
+            <Route path="/movies/:idPelicula" element={<MovieDetails />} />
+          </Route>
         </Routes>
       </main>
     </div>

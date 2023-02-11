@@ -14,6 +14,12 @@ export function Empty({ msg }) {
           No se han cargado los países desde la Base de datos!
         </p>
       );
+    case "login":
+      return (
+        <p className={styles.center}>
+          No se han cargado los datos desde la Base de datos!
+        </p>
+      );
     default:
       return null;
   }

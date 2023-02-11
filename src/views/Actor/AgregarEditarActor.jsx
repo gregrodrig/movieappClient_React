@@ -22,7 +22,6 @@ export default function AgregarEditarActor() {
   const [errorAdding, setAdding] = useState(false);
   const navigate = useNavigate();
   const [paises, setPaises] = useState([]);
-  const [tblPaisIdPais, setPais] = useState(1);
 
   useEffect(() => {
     setLoading(true);
@@ -30,7 +29,6 @@ export default function AgregarEditarActor() {
     setLoading(false);
   }, []);
 
-  const idPais = (paises.values = tblPaisIdPais);
   const PATH = "actores";
 
   const actors = async () => {
@@ -56,7 +54,6 @@ export default function AgregarEditarActor() {
       tblPaisIdPais: 0,
     },
     onSubmit: async (valores, { resetForm }) => {
-      valores.tblPaisIdPais = idPais;
       try {
         if (!idActor) {
           axiosPost(`/${PATH}`, valores);
@@ -163,12 +160,11 @@ export default function AgregarEditarActor() {
                   <Control
                     control="select"
                     label="País"
-                    name={tblPaisIdPais}
+                    name="tblPaisIdPais"
                     value={formik.values.tblPaisIdPais}
                     onChange={formik.handleChange}
                     error={formik.errors?.tblPaisIdPais}
                     options={paises}
-                    onValue={setPais}
                   />
                 </div>
                 <SendButton type="submit" content="Enviar" />

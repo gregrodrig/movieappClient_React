@@ -16,17 +16,19 @@ import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 export default function Actor() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [paises, setPaises] = useState([]);
 
   const PATH = "actores";
 
-  const actors = () => {
+  const getActores = () => {
     setLoading(true);
+    axiosGet(`pais`, setPaises);
     axiosGet(`${PATH}/`, setData);
     setLoading(false);
   };
 
   useEffect(() => {
-    actors();
+    getActores();
   }, []);
 
   const handleDelete = (idActor, nameActor) => {
@@ -62,6 +64,10 @@ export default function Actor() {
     {
       name: "País de nacimiento",
       selector: (row) => row.tblPaisIdPais,
+      cell: (row) => {
+        const pais = paises.find((p) => p.idPais === row.tblPaisIdPais);
+        return <span>{pais?.pais}</span>;
+      },
     },
     {
       name: "Acciones",

@@ -1,5 +1,5 @@
 import styles from "./MovieDetails.module.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   axiosGet,
@@ -9,12 +9,17 @@ import imgCover from "../../assets/img/NoCoverImg.jpg";
 import Spinner from "../../components/Spinner/Spinner";
 import { Empty } from "../../components/EmptyMovie/Empty";
 import { ThreeDots } from "../../components/Dropdown/ThreeDots/ThreeDots";
+import { handleGetUserData } from "../../components/UserLogin";
 
 function MovieDetails() {
   const { idPelicula } = useParams();
   const [movie, setMovie] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const urlAPI = "http://localhost:8000/images/";
+  const navigate = useNavigate();
+
+  const user = handleGetUserData();
+  const userRol = user?.roles?.map((rol) => rol.authority);
 
   useEffect(() => {
     setLoading(true);
@@ -32,6 +37,9 @@ function MovieDetails() {
       alert(
         `La película "${movie.titulo}", No.: ${idPelicula} ya fue eliminada con éxito!`
       );
+      setTimeout(() => {
+        navigate("/");
+      }, 500);
     }
   };
   return (
@@ -54,12 +62,14 @@ function MovieDetails() {
               <p className={styles.firstItem}>
                 <strong>Título:</strong> {movie.titulo}
               </p>
-              <ThreeDots
-                item={[
-                  <Link onClick={() => handleDelete()}>Eliminar</Link>,
-                  <Link to={`/updatemovie/${idPelicula}`}>Actualizar</Link>,
-                ]}
-              />
+              {userRol?.includes("Admin") ? (
+                <ThreeDots
+                  item={[
+                    <Link onClick={() => handleDelete()}>Eliminar</Link>,
+                    <Link to={`/updatemovie/${idPelicula}`}>Actualizar</Link>,
+                  ]}
+                />
+              ) : null}
             </div>
             <p>
               <strong>Generos:</strong>{" "}

@@ -12,10 +12,12 @@ export function Select({ label, name, options, error, onValue, ...rest }) {
         value={name}
         {...rest}
         className={styles.field}
-        onChange={(e) => {
-          onValue(e.target.value);
-        }}
+        // onChange={(e) => {
+        //   onValue(e.target.value);
+        // }}
       >
+        <option value="0">Seleccione</option>
+
         {options.map((option) => {
           return (
             <option key={option.idPais} value={option.idPais}>
