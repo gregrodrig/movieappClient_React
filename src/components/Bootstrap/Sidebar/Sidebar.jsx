@@ -1,4 +1,9 @@
-import { AiOutlineHome, AiOutlineDashboard } from "react-icons/ai";
+import {
+  AiOutlineSound,
+  AiOutlineUser,
+  AiOutlineHome,
+  AiOutlineDashboard,
+} from "react-icons/ai";
 import { Link } from "react-router-dom";
 import styles from "./SideBar.module.css";
 export default function Sidebar({ content }) {
@@ -16,23 +21,72 @@ export default function Sidebar({ content }) {
               <span className="fs-5 d-none d-sm-inline">Menu</span>
             </Link>
             <ul
-              className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+              className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start list-unstyled ps-0"
               id="menu"
             >
-              <li className="nav-item">
-                <Link to="#" className="nav-link align-middle px-0">
-                  <AiOutlineHome className="fs-4" />{" "}
-                  <span className="ms-1 d-none d-sm-inline">Home</span>
+              <li className="mb-1">
+                <Link
+                  className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed medium"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#dashboard-collapse"
+                  aria-expanded="false"
+                >
+                  <AiOutlineSound className="fs-4" />{" "}
+                  <span className="ms-1 d-none d-sm-inline">Director</span>
                 </Link>
+                <div className="collapse" id="dashboard-collapse">
+                  <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 medium">
+                    <li className="nav-item">
+                      <Link
+                        to="/director"
+                        className="link-dark d-inline-flex text-decoration-none rounded"
+                      >
+                        Listado
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="add"
+                        className="link-dark d-inline-flex text-decoration-none rounded"
+                      >
+                        Agregar
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
               </li>
-              <li className="nav-item">
-                <Link to="#" className="nav-link align-middle px-0">
-                  <AiOutlineDashboard className="fs-4" />{" "}
-                  <span className="ms-1 d-none d-sm-inline">Home</span>
+              <li className="mb-1">
+                <Link
+                  className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed medium"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#dashboard-collapse"
+                  aria-expanded="false"
+                >
+                  <AiOutlineUser className="fs-4" />{" "}
+                  <span className="ms-1 d-none d-sm-inline">Actor</span>
                 </Link>
+                <div className="collapse" id="dashboard-collapse">
+                  <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 medium">
+                    <li className="nav-item">
+                      <Link
+                        to="/actor"
+                        className="link-dark d-inline-flex text-decoration-none rounded"
+                      >
+                        Listado
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="add"
+                        className="link-dark d-inline-flex text-decoration-none rounded"
+                      >
+                        Agregar
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
               </li>
             </ul>
-            <hr />
             <div className="dropdown pb-4">
               <Link
                 to="#"

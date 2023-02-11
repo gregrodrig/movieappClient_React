@@ -1,0 +1,14 @@
+.linkContainer {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  min-width: max-content;
+}
+.linkEliminar {
+  color: white;
+  background-color: #e60073;
+}
+.linkEliminar:hover {
+  color: white;
+  background-color: black;
+}

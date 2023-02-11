@@ -2,7 +2,7 @@ import axios from "axios";
 //const BASEURL = process.env.REACT_APP_BASEURL;
 
 export const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000/", //BASEURL,
+  baseURL: "http://localhost:8000/", //GATEWAY BASEURL: http://localhost:8090/api/peliculas/
   timeout: 2000,
   headers: { "X-Custom-Header": "foobar" },
 });
