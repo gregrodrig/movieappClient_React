@@ -16,6 +16,7 @@ import Login from "./views/Login/Login";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { handleGetUserData } from "./components/UserLogin";
 import UserRegister from "./views/UserRegister/UserRegister";
+import AprobarEditarUser from "./views/UserRegister/AprobarEditarUser";
 
 const handleLogout = () => {
   localStorage.clear();
@@ -65,6 +66,8 @@ function App() {
               />
             }
           >
+            {/*USER*/}
+            <Route path="/users/list" element={<AprobarEditarUser />} />
             {/*ACTOR*/}
             <Route path="/actor" element={<Actor />} />
             <Route path="/actor/add" element={<AgregarEditarActor />} />
