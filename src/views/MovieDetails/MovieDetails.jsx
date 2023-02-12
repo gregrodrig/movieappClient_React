@@ -72,24 +72,35 @@ function MovieDetails() {
               ) : null}
             </div>
             <p>
+              <strong>Duración:</strong> {movie.duracion}
+            </p>
+            <p>
+              <strong>País:</strong> {movie.paisByTblPaisIdPais.pais}
+            </p>
+            <p>
               <strong>Generos:</strong>{" "}
               {movie.generos.map((genero) => genero.genero).join(", ")}
             </p>
             <p>
-              <strong>Director:</strong>{" "}
+              <strong>Directores:</strong>{" "}
               {movie.directors.map((director) => director.nombre).join(", ")}
             </p>
             <p>
-              <strong>Sinopsis:</strong> {movie.sinopsis}
-            </p>
-            <p>
-              <strong>Duración:</strong> {movie.duracion}
+              <strong>Actores:</strong>{" "}
+              {movie.actors.map((actor, index) => {
+                return (
+                  <span key={index}>
+                    {actor.nombre} {actor.apellidos}
+                    {", "}
+                  </span>
+                );
+              })}
             </p>
             <p>
               <strong>Año:</strong> {movie.anno}
             </p>
             <p>
-              <strong>País:</strong> {movie.paisByTblPaisIdPais.pais}
+              <strong>Sinopsis:</strong> {movie.sinopsis}
             </p>
           </div>
         </div>

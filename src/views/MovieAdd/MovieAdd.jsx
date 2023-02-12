@@ -14,6 +14,9 @@ import {
 } from "../../utils/api/Connection/ConnectionApi";
 import Spinner from "../../components/Spinner/Spinner";
 import { Empty } from "../../components/EmptyMovie/Empty";
+import Sidebar from "../../components/Bootstrap/Sidebar/Sidebar";
+import SidebarBody from "../../components/Bootstrap/SidebarBody/SidebarBody";
+import CenteredNav from "../../components/Bootstrap/CenteredNav/CenteredNav";
 
 export function MovieAdd() {
   const { idPelicula } = useParams();
@@ -123,98 +126,122 @@ export function MovieAdd() {
       {!paises ? (
         <Empty msg="paises" />
       ) : (
-        <form onSubmit={formik.handleSubmit} className={styles.form}>
-          {!idPelicula ? <h1>Agregar Película</h1> : <h1>Editar Película</h1>}
-          <br />
-          <div>
-            <Control
-              control="input"
-              type="text"
-              label="Título"
-              name="titulo"
-              value={formik.values.titulo}
-              onChange={formik.handleChange}
-              error={formik.errors?.titulo}
+        <Sidebar
+          content={
+            <SidebarBody
+              contentTop={
+                <CenteredNav
+                  titleText="Listado de Películas"
+                  btnText="Ir ahora"
+                  btnLink="/"
+                />
+              }
+              contenButtom={
+                <form onSubmit={formik.handleSubmit} className={styles.form}>
+                  {!idPelicula ? (
+                    <h1>Agregar Película</h1>
+                  ) : (
+                    <h1>Editar Película</h1>
+                  )}
+                  <br />
+                  <div>
+                    <Control
+                      control="input"
+                      type="text"
+                      label="Título"
+                      name="titulo"
+                      value={formik.values.titulo}
+                      onChange={formik.handleChange}
+                      error={formik.errors?.titulo}
+                    />
+                  </div>
+                  <div>
+                    <Control
+                      control="input"
+                      type="text"
+                      label="Duración"
+                      name="duracion"
+                      value={formik.values.duracion}
+                      onChange={formik.handleChange}
+                      error={formik.errors?.duracion}
+                    />
+                  </div>
+                  <div>
+                    <Control
+                      control="textarea"
+                      type="text"
+                      label="Sinopsis"
+                      name="sinopsis"
+                      value={formik.values.sinopsis}
+                      onChange={formik.handleChange}
+                      error={formik.errors?.sinopsis}
+                    />
+                  </div>
+                  <div>
+                    <Control
+                      control="input"
+                      label="Año"
+                      name="anno"
+                      value={formik.values.anno}
+                      onChange={formik.handleChange}
+                      error={formik.errors?.anno}
+                      placeholder="YYYY-MM-DD"
+                    />
+                  </div>
+                  <div>
+                    <Control
+                      control="select"
+                      label="Pais"
+                      name={tblPaisIdPais}
+                      value={formik.values.tblPaisIdPais}
+                      onChange={formik.handleChange}
+                      error={formik.errors?.tblPaisIdPais}
+                      options={paises}
+                      onValue={setPais}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="imagen">Portada</label>
+                    <input
+                      className={style.field}
+                      type="file"
+                      name="imagen"
+                      onChange={async (event) => {
+                        const img = event.target.files[0];
+                        const formData = new FormData();
+                        formData.append("image", img);
+                        try {
+                          const request = await axiosInstance.post(
+                            `/upload`,
+                            formData
+                          );
+                          formik.setFieldValue("imagen", request.data);
+                        } catch (error) {
+                          console.log(error);
+                        }
+                      }}
+                    />
+                    {formik.errors.imagen && (
+                      <p className={stylesT.error}>{formik.errors.imagen}</p>
+                    )}
+                  </div>
+                  <SendButton type="submit" content="Enviar" />
+                  {formSend ? (
+                    <p className={styles.exito}>
+                      Película agregada correctamente!
+                    </p>
+                  ) : (
+                    errorAdding && (
+                      <p className={styles.failed}>
+                        Por favor, confirma la información e intenta de nuevo!
+                      </p>
+                    )
+                  )}
+                </form>
+              }
             />
-          </div>
-          <div>
-            <Control
-              control="input"
-              type="text"
-              label="Duración"
-              name="duracion"
-              value={formik.values.duracion}
-              onChange={formik.handleChange}
-              error={formik.errors?.duracion}
-            />
-          </div>
-          <div>
-            <Control
-              control="textarea"
-              type="text"
-              label="Sinopsis"
-              name="sinopsis"
-              value={formik.values.sinopsis}
-              onChange={formik.handleChange}
-              error={formik.errors?.sinopsis}
-            />
-          </div>
-          <div>
-            <Control
-              control="input"
-              label="Año"
-              name="anno"
-              value={formik.values.anno}
-              onChange={formik.handleChange}
-              error={formik.errors?.anno}
-              placeholder="YYYY-MM-DD"
-            />
-          </div>
-          <div>
-            <Control
-              control="select"
-              label="Pais"
-              name={tblPaisIdPais}
-              value={formik.values.tblPaisIdPais}
-              onChange={formik.handleChange}
-              error={formik.errors?.tblPaisIdPais}
-              options={paises}
-              onValue={setPais}
-            />
-          </div>
-          <div>
-            <label htmlFor="imagen">Portada</label>
-            <input
-              className={style.field}
-              type="file"
-              name="imagen"
-              onChange={async (event) => {
-                const img = event.target.files[0];
-                const formData = new FormData();
-                formData.append("image", img);
-                try {
-                  const request = await axiosInstance.post(`/upload`, formData);
-                  formik.setFieldValue("imagen", request.data);
-                } catch (error) {
-                  console.log(error);
-                }
-              }}
-            />
-            {formik.errors.imagen && (
-              <p className={stylesT.error}>{formik.errors.imagen}</p>
-            )}
-          </div>
-          <SendButton type="submit" content="Enviar" />
-          {formSend ? (
-            <p className={styles.exito}>Película agregada correctamente!</p>
-          ) : (
-            errorAdding && (
-              <p className={styles.failed}>
-                Por favor, confirma la información e intenta de nuevo!
-              </p>
-            )
-          )}
-        </form>
+          }
+        />
       )}
     </>
   );

@@ -19,3 +19,20 @@ a {
 p {
   color: white;
 }
+.active {
+  margin: 1em;
+  color: black;
+  font-size: large;
+  padding-bottom: 0.4em;
+  border-bottom: 4px solid #e60073;
+}
+.inactive {
+  margin: 1em;
+  color: black;
+  font-size: large;
+  border-bottom: none;
+}
+.active:hover,
+.inactive:hover {
+  color: black;
+}

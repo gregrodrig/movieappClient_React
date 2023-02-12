@@ -29,4 +29,9 @@
 
 .menuTitle > div {
   flex: 1;
+  margin-bottom: 16px;
+}
+strong {
+  color: #e60073;
+  opacity: 90%;
 }
