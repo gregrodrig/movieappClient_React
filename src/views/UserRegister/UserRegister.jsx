@@ -1,150 +1,174 @@
-import React, { useState } from "react";
-import { useFormik } from "formik";
-import { Control } from "../../components/Form/Formik/Control/Control";
-import styles from "../MovieAdd/MovieAdd.module.css";
-import { useNavigate } from "react-router-dom";
-import { SendButton } from "../../components/Buttons/SendButton/SendButton";
-import { apiUserPost } from "../../utils/api/Connection/ApiUser";
-import Spinner from "../../components/Spinner/Spinner";
+import { useEffect, useState } from "react";
+import styles from "../Director/Director.module.css";
+import DataTable from "react-data-table-component";
+import { Link } from "react-router-dom";
+import CenteredNav from "../../components/Bootstrap/CenteredNav/CenteredNav";
+import Sidebar from "../../components/Bootstrap/Sidebar/Sidebar";
+import SidebarBody from "../../components/Bootstrap/SidebarBody/SidebarBody";
 import { Empty } from "../../components/EmptyMovie/Empty";
+import Spinner from "../../components/Spinner/Spinner";
+import { AiOutlineDelete, AiOutlineEdit, AiOutlineCheck } from "react-icons/ai";
+import {
+  apiUserDelete,
+  apiUserGet,
+  apiUserPut,
+} from "../../utils/api/Connection/ApiUser";
+import { customStyles } from "../../css/tableStyle";
+import style from "./UserRegister.module.css";
 
 export default function UserRegister() {
   const [isLoading, setLoading] = useState(true);
-  const [formSend, setFormSend] = useState(false);
-  const [errorAdding, setAdding] = useState(false);
-  const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [usersPending, setUsersPending] = useState(false);
 
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      password: "",
-      correo: "",
-      enable: false,
-      roles: [
-        {
-          idRol: 2,
-        },
-      ],
-    },
-    onSubmit: async (valores, { resetForm }) => {
-      try {
-        setLoading(false);
-        console.log(valores);
-        apiUserPost("users/save", valores);
-        console.log("Nuevo Usuario Registrado!");
-        setLoading(true);
-        setFormSend(true);
-        resetForm(true);
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
-      } catch (error) {
-        console.log(error);
-        setAdding(true);
-      }
-    },
-    validate: (valores) => {
-      let errores = {};
+  const PATH = "users/enable";
 
-      //validación nombre
-      if (!valores.username) {
-        errores.username = "Por favor ingrese su nombre completo";
-      } else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(valores.username)) {
-        errores.username =
-          "El nombre completo sólo puede contener letras y espacios.";
-      }
-      //validación password
-      if (!valores.password) {
-        errores.password = "¡Por favor, introduzca una contraseña!";
-      } else if (
-        !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(
-          valores.password
-        )
-      ) {
-        errores.password = (
+  const callUser = async (value) => {
+    await apiUserGet(`${PATH}/${value}/`, setData);
+    setUsersPending(value);
+    return getUsers(value);
+  };
+
+  const getUsers = async (value) => {
+    setLoading(true);
+    await apiUserGet(`${PATH}/${value}`, setData);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getUsers(usersPending);
+  }, [usersPending]);
+
+  const handleDelete = (idUsuario, userName) => {
+    if (
+      window.confirm(
+        `Seguro deseas eliminar el usuario ${userName}, No.: ${idUsuario}?`
+      )
+    ) {
+      apiUserDelete(`users/${idUsuario}`);
+      alert(
+        `Usuario ${userName}, No.: ${idUsuario} ya fue eliminado con éxito!`
+      );
+      getUsers(usersPending);
+    }
+  };
+  const handleAproved = async (idUsuario, userName) => {
+    if (
+      window.confirm(
+        `Seguro deseas aprobar al usuario ${userName}, No.: ${idUsuario}?`
+      )
+    ) {
+      apiUserPut(`users/aprobarUsuario/${idUsuario}`);
+      alert(`Usuario ${userName}, No.: ${idUsuario} fue aprobado con éxito!`);
+      getUsers(usersPending);
+    }
+  };
+  const columnas = [
+    {
+      name: "#",
+      selector: (row) => row.idUsuario,
+      width: "6vw",
+    },
+    {
+      name: "Nombre completo",
+      selector: (row) => row.username,
+    },
+    {
+      name: "Correo electronico",
+      selector: (row) => row.correo,
+    },
+    {
+      name: "Rol",
+      selector: (row) => row.roles?.map((rol) => rol.authority),
+      width: "10vw",
+    },
+    {
+      name: "Acciones",
+      width: "10vw",
+      // grow: 2,
+      button: true,
+      cell: (row) => (
+        <div className={`${styles.linkContainer}`}>
           <div>
-            <ul>
-              <li>
-                El total de la contraseña debería corresponder en el rango entre
-                8 a 14.
-              </li>
-              <li>La contraseña debe contener la primera letra en mayúscula</li>
-              <li>Debería contener un dígito alfanumérico.</li>
-              <li>
-                No debe contener ninguna letra a,e,i,o,u ni guion bajo que se
-                corresponde con \w
-              </li>
-            </ul>
+            {usersPending ? null : (
+              <Link
+                onClick={() => handleAproved(row.idUsuario, row.username)}
+                className={`btn btn-dark ${styles.linkAprobar}`}
+              >
+                <AiOutlineCheck />
+              </Link>
+            )}
           </div>
-        );
-      }
-      //validación email
-      if (!valores.correo) {
-        errores.correo = "¡Por favor, introduzca un correo electrónico!";
-      } else if (
-        !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(valores.correo)
-      ) {
-        errores.correo =
-          "El correo electrónico solo puede contener letras, números, caracteres especiales y guiones bajo.";
-      }
-      return errores;
+          <div>
+            <Link
+              onClick={() => handleDelete(row.idUsuario, row.username)}
+              className={`btn btn-dark ${styles.linkEliminar}`}
+            >
+              <AiOutlineDelete />
+            </Link>
+          </div>
+          <div>
+            <Link
+              className={`btn btn-dark ${styles.link}`}
+              to={`edit/${row.idUsuario}`}
+            >
+              <AiOutlineEdit />
+            </Link>
+          </div>
+        </div>
+      ),
     },
-  });
+  ];
+
   return (
     <>
-      {!isLoading ? (
-        <>
-          <Empty msg="login" />
-          <Spinner />
-        </>
+      {isLoading && <Spinner />}
+      {!data ? (
+        <Empty msg="" />
       ) : (
-        <form onSubmit={formik.handleSubmit} className={styles.form}>
-          <h1>Registrar nuevo usuario</h1>
-          <br />
-          <div>
-            <Control
-              control="input"
-              type="text"
-              label="Nombre Completo"
-              name="username"
-              value={formik.values.username}
-              onChange={formik.handleChange}
-              error={formik.errors?.username}
+        <Sidebar
+          content={
+            <SidebarBody
+              contentTop={
+                <CenteredNav
+                  titleText="Nuevo Usuario"
+                  btnText="Agregar"
+                  btnLink="add"
+                />
+              }
+              contenButtom={
+                <>
+                  <div style={{ margin: "1em 0px 1.6em" }}>
+                    <Link
+                      className={!usersPending ? "active" : "inactive"}
+                      onClick={() => {
+                        callUser(false);
+                      }}
+                    >
+                      Pendiente
+                    </Link>{" "}
+                    <Link
+                      className={usersPending ? "active" : "inactive"}
+                      onClick={() => {
+                        callUser(true);
+                      }}
+                    >
+                      Aprobado
+                    </Link>
+                  </div>
+                  <DataTable
+                    customStyles={customStyles}
+                    title=" "
+                    columns={columnas}
+                    data={data}
+                    keyField="idUsuario"
+                    pagination
+                  />
+                </>
+              }
             />
-          </div>
-          <div>
-            <Control
-              control="input"
-              type="text"
-              label="Correo electrónico"
-              name="correo"
-              value={formik.values.correo}
-              onChange={formik.handleChange}
-              error={formik.errors?.correo}
-            />
-          </div>
-          <div>
-            <Control
-              control="input"
-              type="password"
-              label="Contraseña"
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              error={formik.errors?.password}
-            />
-          </div>
-          <SendButton type="submit" content="Enviar" />
-          {formSend ? (
-            <p className={styles.exito}>Usuario creado correctamente!</p>
-          ) : (
-            errorAdding && (
-              <p className={styles.failed}>
-                Por favor, confirma la información e intenta de nuevo!
-              </p>
-            )
-          )}
-        </form>
+          }
+        />
       )}
     </>
   );

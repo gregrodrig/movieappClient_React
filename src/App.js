@@ -16,7 +16,7 @@ import Login from "./views/Login/Login";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { handleGetUserData } from "./components/UserLogin";
 import UserRegister from "./views/UserRegister/UserRegister";
-import AprobarEditarUser from "./views/UserRegister/AprobarEditarUser";
+import AgregarEditarUser from "./views/UserRegister/AgregarEditarUser";
 
 const handleLogout = () => {
   localStorage.clear();
@@ -44,8 +44,14 @@ function App() {
             </>
           ) : (
             <>
-              <Link onClick={handleLogout}>Logout</Link> /{" "}
-              <Link to="/actor">Dashboard</Link>
+              <span style={{ color: "#e60073" }}>Hola, {user.username}</span>
+              <br></br>
+              <Link onClick={handleLogout}>Logout</Link>{" "}
+              {userRol?.includes("Admin") ? (
+                <>
+                  | <Link to="/user">Dashboard</Link>
+                </>
+              ) : null}
             </>
           )}
         </div>
@@ -57,7 +63,7 @@ function App() {
           <Route path="*" element={<Navigate replace to="/" />} />
           <Route path="/login" element={<Login />} />
           {/*USER*/}
-          <Route path="/register" element={<UserRegister />} />
+          <Route path="/register" element={<AgregarEditarUser />} />
           <Route
             element={
               <ProtectedRoute
@@ -67,7 +73,12 @@ function App() {
             }
           >
             {/*USER*/}
-            <Route path="/users/list" element={<AprobarEditarUser />} />
+            <Route path="/user" element={<UserRegister />} />
+            <Route path="/user/add" element={<AgregarEditarUser />} />
+            <Route
+              path="/user/edit/:idUsuario"
+              element={<AgregarEditarUser />}
+            />
             {/*ACTOR*/}
             <Route path="/actor" element={<Actor />} />
             <Route path="/actor/add" element={<AgregarEditarActor />} />
