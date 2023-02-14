@@ -10,6 +10,11 @@ import Spinner from "../../components/Spinner/Spinner";
 import { Empty } from "../../components/EmptyMovie/Empty";
 import { ThreeDots } from "../../components/Dropdown/ThreeDots/ThreeDots";
 import { handleGetUserData } from "../../components/UserLogin";
+import AgregarCriticasEnPelicula from "../Criticas/AgregarCriticasEnPelicula";
+import Modal from "../../components/Bootstrap/Modal/Modal";
+import CriticasEnPelicula from "../Criticas/CriticasEnPelicula";
+import { SendButton } from "../../components/Buttons/SendButton/SendButton";
+import { GeneralButton } from "../../components/Buttons/GeneralButton/GeneralButton";
 
 function MovieDetails() {
   const { idPelicula } = useParams();
@@ -50,60 +55,87 @@ function MovieDetails() {
           <Empty msg="pelicula" />
         </div>
       ) : (
-        <div className={styles.detailsContainer}>
-          <img
-            height={500}
-            className={`${styles.col} ${styles.movieImage}`}
-            src={!movie.imagen ? imgCover : urlAPI + movie.imagen}
-            alt={movie.titulo}
-          />
-          <div className={`${styles.col} ${styles.movieDetails}`}>
-            <div className={styles.menuTitle}>
-              <p className={styles.firstItem}>
-                <strong>Título:</strong> {movie.titulo}
+        <>
+          <div className={styles.detailsContainer}>
+            <img
+              height={500}
+              className={`${styles.col} ${styles.movieImage}`}
+              src={!movie.imagen ? imgCover : urlAPI + movie.imagen}
+              alt={movie.titulo}
+            />
+            <div className={`${styles.col} ${styles.movieDetails}`}>
+              <div className={styles.menuTitle}>
+                <p className={styles.firstItem}>
+                  <strong>Título:</strong> {movie.titulo}
+                </p>
+                {userRol?.includes("Admin") ? (
+                  <ThreeDots
+                    item={[
+                      <Link onClick={() => handleDelete()}>Eliminar</Link>,
+                      <Link to={`/updatemovie/${idPelicula}`}>Actualizar</Link>,
+                    ]}
+                  />
+                ) : null}
+              </div>
+              <p>
+                <strong>Duración:</strong> {movie.duracion}
               </p>
-              {userRol?.includes("Admin") ? (
-                <ThreeDots
-                  item={[
-                    <Link onClick={() => handleDelete()}>Eliminar</Link>,
-                    <Link to={`/updatemovie/${idPelicula}`}>Actualizar</Link>,
-                  ]}
-                />
-              ) : null}
+              <p>
+                <strong>País:</strong> {movie.paisByTblPaisIdPais.pais}
+              </p>
+              <p>
+                <strong>Generos:</strong>{" "}
+                {movie.generos.map((genero) => genero.genero).join(", ")}
+              </p>
+              <p>
+                <strong>Directores:</strong>{" "}
+                {movie.directors.map((director) => director.nombre).join(", ")}
+              </p>
+              <p>
+                <strong>Actores:</strong>{" "}
+                {movie.actors.map((actor, index) => {
+                  return (
+                    <span key={index}>
+                      {actor.nombre} {actor.apellidos}
+                      {", "}
+                    </span>
+                  );
+                })}
+              </p>
+              <p>
+                <strong>Año:</strong> {movie.anno}
+              </p>
+              <p>
+                <strong>Sinopsis:</strong> {movie.sinopsis}
+              </p>
+              <p>
+                {userRol?.includes("Admin") || userRol?.includes("Users") ? (
+                  <Modal
+                    btnCloseText="CANCELAR"
+                    btnText="REALIZAR CRITICA"
+                    body={<AgregarCriticasEnPelicula idPelicula={idPelicula} />}
+                  />
+                ) : (
+                  <GeneralButton
+                    type="submit"
+                    content="REALIZAR CRITICA"
+                    onClick={() => navigate("/register")}
+                  />
+                )}
+              </p>
             </div>
-            <p>
-              <strong>Duración:</strong> {movie.duracion}
-            </p>
-            <p>
-              <strong>País:</strong> {movie.paisByTblPaisIdPais.pais}
-            </p>
-            <p>
-              <strong>Generos:</strong>{" "}
-              {movie.generos.map((genero) => genero.genero).join(", ")}
-            </p>
-            <p>
-              <strong>Directores:</strong>{" "}
-              {movie.directors.map((director) => director.nombre).join(", ")}
-            </p>
-            <p>
-              <strong>Actores:</strong>{" "}
-              {movie.actors.map((actor, index) => {
-                return (
-                  <span key={index}>
-                    {actor.nombre} {actor.apellidos}
-                    {", "}
-                  </span>
-                );
-              })}
-            </p>
-            <p>
-              <strong>Año:</strong> {movie.anno}
-            </p>
-            <p>
-              <strong>Sinopsis:</strong> {movie.sinopsis}
-            </p>
           </div>
-        </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              margin: "40px 20em",
+            }}
+          >
+            <CriticasEnPelicula idPelicula={idPelicula} />
+          </div>
+        </>
       )}
     </>
   );

@@ -22,7 +22,7 @@ export default function Modal({
         id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
@@ -43,12 +43,12 @@ export default function Modal({
             <div className="modal-footer">
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-dark"
                 data-bs-dismiss="modal"
               >
                 {btnCloseText}
               </button>
-              <button type="button" className="btn btn-primary">
+              <button type="button" className="btn btn-primary" hidden>
                 {btnAcept}
               </button>
             </div>

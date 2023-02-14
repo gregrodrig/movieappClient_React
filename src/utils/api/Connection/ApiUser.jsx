@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const apiUser = axios.create({
-  baseURL: "http://localhost:8002/", //GATEWAY BASEURL: http://localhost:8090/api/peliculas/
+  baseURL: "http://localhost:8002", //GATEWAY BASEURL: http://localhost:8090/api/users/
   timeout: 2000,
   headers: { "X-Custom-Header": "foobar" },
 });

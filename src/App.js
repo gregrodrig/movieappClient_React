@@ -17,6 +17,8 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { handleGetUserData } from "./components/UserLogin";
 import UserRegister from "./views/UserRegister/UserRegister";
 import AgregarEditarUser from "./views/UserRegister/AgregarEditarUser";
+import Criticas from "./views/Criticas/Criticas";
+import AgregarEditarCriticas from "./views/Criticas/AgregarEditarCriticas";
 
 const handleLogout = () => {
   localStorage.clear();
@@ -64,6 +66,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           {/*USER*/}
           <Route path="/register" element={<AgregarEditarUser />} />
+          {/*PELICULA*/}
+          <Route path="/movies/:idPelicula" element={<MovieDetails />} />
           <Route
             element={
               <ProtectedRoute
@@ -78,6 +82,13 @@ function App() {
             <Route
               path="/user/edit/:idUsuario"
               element={<AgregarEditarUser />}
+            />
+            {/*CRITICAS*/}
+            <Route path="/criticas" element={<Criticas />} />
+            <Route path="/criticas/add" element={<AgregarEditarCriticas />} />
+            <Route
+              path="/criticas/edit/:idCriticas"
+              element={<AgregarEditarCriticas />}
             />
             {/*ACTOR*/}
             <Route path="/actor" element={<Actor />} />
@@ -109,7 +120,7 @@ function App() {
             <Route path="/pais/edit/:idPais" element={<AgregarEditarPais />} />
           </Route>
           {/* USER ROUTES*/}
-          <Route
+          {/* <Route
             element={
               <ProtectedRoute
                 isAllowed={
@@ -120,10 +131,10 @@ function App() {
                 redirectTo="/"
               />
             }
-          >
-            {/*PELICULA*/}
-            <Route path="/movies/:idPelicula" element={<MovieDetails />} />
-          </Route>
+          > */}
+          {/*PELICULA*/}
+          {/* <Route path="/movies/:idPelicula" element={<MovieDetails />} />
+          </Route> */}
         </Routes>
       </main>
     </div>
