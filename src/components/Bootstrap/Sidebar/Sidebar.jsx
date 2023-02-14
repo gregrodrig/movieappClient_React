@@ -61,11 +61,11 @@ export default function Sidebar({ content }) {
       icon: <AiOutlineGlobal className="fs-4" />,
     },
     {
-      label: "Criticas",
+      label: "Críticas",
       labelList: "Listado",
       linkList: "/criticas",
       labelAdd: "Agregar",
-      linkAdd: "/criticas/add",
+      linkAdd: "/",
       icon: <AiOutlineComment className="fs-4" />,
     },
   ];
