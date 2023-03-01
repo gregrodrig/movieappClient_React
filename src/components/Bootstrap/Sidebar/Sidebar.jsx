@@ -14,59 +14,101 @@ export default function Sidebar({ content }) {
   let links = [
     {
       label: "Usuarios",
-      labelList: "Listado",
-      linkList: "/user",
-      labelAdd: "Agregar",
-      linkAdd: "/user/add",
       icon: <AiOutlineUsergroupAdd className="fs-4" />,
+      children: [
+        {
+          link: "/user/add",
+          label: "Agregar",
+        },
+        {
+          link: "/user",
+          label: "Listado",
+        },
+      ],
     },
     {
       label: "Director",
-      labelList: "Listado",
-      linkList: "/director",
-      labelAdd: "Agregar",
-      linkAdd: "/director/add",
       icon: <AiOutlineSound className="fs-4" />,
+      children: [
+        {
+          link: "/director/add",
+          label: "Agregar",
+        },
+        {
+          link: "/director",
+          label: "Listado",
+        },
+      ],
     },
     {
       label: "Actor",
-      labelList: "Listado",
-      linkList: "/actor",
-      labelAdd: "Agregar",
-      linkAdd: "/actor/add",
       icon: <AiOutlineUser className="fs-4" />,
+      children: [
+        {
+          link: "/actor/add",
+          label: "Agregar",
+        },
+        {
+          link: "/actor",
+          label: "Listado",
+        },
+      ],
     },
     {
       label: "Películas",
-      labelList: "Listado",
-      linkList: "/",
-      labelAdd: "Agregar",
-      linkAdd: "/addmovie",
       icon: <AiOutlinePlaySquare className="fs-4" />,
+      children: [
+        {
+          link: "/addmovie",
+          label: "Agregar",
+        },
+        {
+          link: "/",
+          label: "Listado",
+        },
+      ],
     },
     {
       label: "Genero",
-      labelList: "Listado",
-      linkList: "/genero",
-      labelAdd: "Agregar",
-      linkAdd: "/genero/add",
       icon: <AiOutlineSmile className="fs-4" />,
+      children: [
+        {
+          link: "/genero/add",
+          label: "Agregar",
+        },
+        {
+          link: "/genero",
+          label: "Listado",
+        },
+      ],
     },
     {
       label: "País",
-      labelList: "Listado",
-      linkList: "/pais",
-      labelAdd: "Agregar",
-      linkAdd: "/pais/add",
       icon: <AiOutlineGlobal className="fs-4" />,
+      children: [
+        {
+          link: "/pais/add",
+          label: "Agregar",
+        },
+        {
+          link: "/pais",
+          label: "Listado",
+        },
+      ],
     },
     {
       label: "Críticas",
-      labelList: "Listado",
-      linkList: "/criticas",
-      labelAdd: "Agregar",
-      linkAdd: "/",
       icon: <AiOutlineComment className="fs-4" />,
+      children: [
+        {
+          link: "/",
+          label: "Agregar",
+        },
+        {
+          link: "/criticas",
+          label: "Listado",
+        },
+      ],
     },
   ];
 
@@ -85,17 +127,17 @@ export default function Sidebar({ content }) {
               <span className="fs-5 d-none d-sm-inline">Menu</span>
             </Link>
             <ul
-              className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start list-unstyled ps-0"
+              className={`nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start list-unstyled ps-0 ${styles.containerLi}`}
               id="menu"
             >
               {links.map((link, index) => {
                 return (
-                  <li className="mb-1">
+                  <li className={`mb-1 ${styles.containerDetails} `}>
                     <Link
                       key={index}
                       className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed medium"
                       data-bs-toggle="collapse"
-                      data-bs-target="#dashboard-collapse"
+                      data-bs-target={`#dashboard-collapse-${index}`}
                       aria-expanded="false"
                     >
                       {link.icon}
@@ -103,26 +145,25 @@ export default function Sidebar({ content }) {
                         {link.label}
                       </span>
                     </Link>
-                    <div className="collapse" id="dashboard-collapse">
-                      <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 medium">
-                        <li className="nav-item">
-                          <Link
-                            key="ContentList"
-                            to={link.linkList}
-                            className="link-dark d-inline-flex text-decoration-none rounded"
-                          >
-                            {link.labelList}
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            key="ContentAdd"
-                            to={link.linkAdd}
-                            className="link-dark d-inline-flex text-decoration-none rounded"
-                          >
-                            {link.labelAdd}
-                          </Link>
-                        </li>
+                    <div
+                      className={`collapse`}
+                      id={`dashboard-collapse-${index}`}
+                    >
+                      <ul
+                        className={`btn-toggle-nav list-unstyled fw-normal pb-1 medium ${styles.containerDetailsLink}`}
+                      >
+                        {link.children?.map((child, index) => {
+                          return (
+                            <li className="nav-item" key={index}>
+                              <Link
+                                to={child.link}
+                                className="link-light d-inline-flex text-decoration-none rounded"
+                              >
+                                {child.label}
+                              </Link>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
                   </li>

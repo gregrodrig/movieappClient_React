@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 
 export function Search() {
   const [query, setQuery] = useSearchParams();
-  const search = query.get("titulo");
+  const search = query.get("busqueda");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,11 +17,11 @@ export function Search() {
           className={styles.searchInput}
           type="test"
           value={search}
-          placeholder="Título"
+          placeholder="Buscar"
           aria-label="Search Movies"
           onChange={(e) => {
             const value = e.target.value;
-            setQuery({ titulo: value });
+            setQuery({ busqueda: value });
           }}
         />
         <FaSearch className={styles.searchButton} size={20} />

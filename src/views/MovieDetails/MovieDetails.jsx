@@ -15,10 +15,12 @@ import Modal from "../../components/Bootstrap/Modal/Modal";
 import CriticasEnPelicula from "../Criticas/CriticasEnPelicula";
 import { SendButton } from "../../components/Buttons/SendButton/SendButton";
 import { GeneralButton } from "../../components/Buttons/GeneralButton/GeneralButton";
+import { apiUserGet } from "../../utils/api/Connection/ApiUser";
 
 function MovieDetails() {
   const { idPelicula } = useParams();
   const [movie, setMovie] = useState(null);
+  const [notaMedia, setnotaMedia] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const urlAPI = "http://localhost:8000/images/";
   const navigate = useNavigate();
@@ -29,6 +31,7 @@ function MovieDetails() {
   useEffect(() => {
     setLoading(true);
     axiosGet(`peliculas/${idPelicula}`, setMovie);
+    apiUserGet(`criticas/notaMedia/${idPelicula}`, setnotaMedia);
     setLoading(false);
   }, [idPelicula]);
 
@@ -57,12 +60,20 @@ function MovieDetails() {
       ) : (
         <>
           <div className={styles.detailsContainer}>
-            <img
-              height={500}
-              className={`${styles.col} ${styles.movieImage}`}
-              src={!movie.imagen ? imgCover : urlAPI + movie.imagen}
-              alt={movie.titulo}
-            />
+            <div>
+              <img
+                height={500}
+                className={`${styles.col} ${styles.movieImage}`}
+                src={!movie.imagen ? imgCover : urlAPI + movie.imagen}
+                alt={movie.titulo}
+              />
+              <p className={`${styles.movieDetails} ${styles.firstItem}`}>
+                <strong style={{ paddingLeft: "1rem" }}>
+                  Nota media:{" "}
+                  <span style={{ color: "white" }}>{notaMedia}</span>
+                </strong>
+              </p>
+            </div>
             <div className={`${styles.col} ${styles.movieDetails}`}>
               <div className={styles.menuTitle}>
                 <p className={styles.firstItem}>

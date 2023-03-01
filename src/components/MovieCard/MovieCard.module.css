@@ -6,11 +6,16 @@
 .movieCard:hover {
   opacity: 0.8;
 }
+.movieCard .titulo:hover {
+  color: #e60073;
+}
 .movieImage {
   border-radius: 10px;
   background-color: azure;
 }
-
+.titulo:hover {
+  color: #e60073;
+}
 @media (max-width: 560px) {
   .movieImage {
     width: 90%;

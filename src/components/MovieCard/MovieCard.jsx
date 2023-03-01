@@ -14,7 +14,7 @@ export function MovieCard({ movie }) {
           src={!movie.imagen ? imgCover : urlAPI + movie.imagen}
           alt={movie.titulo}
         />
-        <div>{movie.titulo}</div>
+        <div className={styles.titulo}>{movie.titulo}</div>
       </Link>
     </li>
   );
