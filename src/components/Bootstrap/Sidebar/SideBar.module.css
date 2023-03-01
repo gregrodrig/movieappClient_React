@@ -1,0 +1,25 @@
+.containerLi:hover {
+  color: #e60073;
+}
+.containerLi {
+  font-size: x-large;
+}
+.containerDetails {
+  padding: 0.333rem;
+}
+.containerDetails a {
+  font-size: large;
+  color: white;
+}
+.containerDetails a:hover {
+  background: #e60073;
+  font-size: large;
+  color: white;
+  padding: 1rem;
+  transition: 0.8s;
+  margin-top: 0.5rem;
+}
+.containerDetails .containerDetailsLink {
+  text-align: center;
+  padding: 0.333rem;
+}

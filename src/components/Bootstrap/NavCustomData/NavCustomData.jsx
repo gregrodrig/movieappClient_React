@@ -1,18 +1,20 @@
 import styles from "./NavCustomData.module.css";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { axiosGet } from "../../../utils/api/Connection/ConnectionApi";
 import { Empty } from "../../EmptyMovie/Empty";
 import Spinner from "../../Spinner/Spinner";
 
 import { GeneralButton } from "../../Buttons/GeneralButton/GeneralButton";
+import { useNavigate } from "react-router-dom";
 
-export default function NavCustomData({ nameButtom }) {
+export default function NavCustomData() {
   const [genero, setGenero] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const gener = () => {
     setLoading(true);
+    // axiosGet(`generos/peliculaPorGenero/6`, setGenero);
     axiosGet(`generos`, setGenero);
     setLoading(false);
   };
@@ -35,6 +37,7 @@ export default function NavCustomData({ nameButtom }) {
                   key={gener.idGenero}
                   value={gener.idGenero}
                   content={gener.genero}
+                  onClick={() => navigate(`?genero=${gener.idGenero}`)}
                 />
               ))}
             </li>
